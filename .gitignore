@@ -1,0 +1,58 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+
+# Environment variables & secrets
+.env
+*.env
+instance/
+
+# Logs & debug files
+*.log
+logs/
+debug.log
+
+# Database
+*.sqlite3
+*.db
+
+# Flask cache
+.cache/
+*.pid
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.iml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Pytest & coverage
+htmlcov/
+.coverage
+*.cover
+*.py,cover
+.cache/
+nosetests.xml
+coverage.xml
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Dependencies
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Build & distribution files
+build/
+dist/
+*.egg-info/
+.eggs/
