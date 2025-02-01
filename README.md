@@ -1,4 +1,4 @@
-# Shiy'kulenga Store
+```plaintext
 e-commerce-web-app/
 │
 ├── app/
@@ -14,13 +14,11 @@ e-commerce-web-app/
 │   │   ├── login.html
 │   ├── static/
 │   │   ├── css/
-│   │   │   ├── styles.css
-│   │   │   └── main.css
+│   │   │   └── styles.css
 │   │   ├── js/
-│   │   │   ├── scripts.js
-|   |   |   └── main.js
-│   │   └── images/
-│   │       └── logo.png
+│   │   │   └── scripts.js
+│   │   ├── images/
+│   │   │   └── logo.png
 │   ├── forms.py
 │   └── utils.py
 │
