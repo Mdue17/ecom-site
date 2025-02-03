@@ -45,10 +45,17 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/store", methods=['GET', 'POST'])
+
+@app.route("/store", methods=['GET'])
 def store():
-    items = ShopItems.query.all()
-    return render_template("store.html", products=items)
+    category_names = request.args.getlist('category')
+    if category_names:
+        categories = Category.query.filter(Category.name.in_(category_names)).all()
+        items = ShopItems.query.filter(ShopItems.category_id.in_([category.id for category in categories])).all()
+    else:
+        items = ShopItems.query.all()
+    categories = Category.query.all()
+    return render_template("store.html", products=items, categories=categories)
 
 
 @app.route('/product/<int:product_id>')
@@ -62,22 +69,28 @@ def add():
     if request.method == 'POST':
         title = request.form['title']
         subtitle = request.form['subtitle']
-        category = request.form['category']
+        category_name = request.form['category']
         sizes = request.form['sizes']
         price = request.form['price']
         image_file = request.files['image_name']
+
+        category = Category.query.filter_by(name=category_name).first()
+
+        if category is None:
+            flash('Category does not exist.', 'error')
+            return redirect(url_for('add'))
 
         if image_file and image_file.filename:
             filename = secure_filename(image_file.filename)
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
-            item = ShopItems(title=title, subtitle=subtitle, category=category, sizes=sizes, price= price,image_name=filename)
+            item = ShopItems(title=title, subtitle=subtitle, category=category, sizes=sizes, price=price, image_name=filename)
             db.session.add(item)
             db.session.commit()
             flash('Product added successfully!', 'success')
             return redirect(url_for('store'))
     else:
-        return render_template('add.html')
+        return render_template('add.html', categories=Category.query.all())
 
 @app.route('/store/delete/<int:product_id>')
 def delete(product_id):
