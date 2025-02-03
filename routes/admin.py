@@ -7,6 +7,7 @@ admin_bp = Blueprint('admin', __name__)
 
 @admin_bp.route('/store/add', methods=['GET', 'POST'])
 def add():
+    """Add a new product to the store"""
     if request.method == 'POST':
         title = request.form['title']
         subtitle = request.form['subtitle']
@@ -36,6 +37,7 @@ def add():
 
 @admin_bp.route('/store/delete/<int:product_id>')
 def delete(product_id):
+    """Delete a product from the store"""
     product = ShopItems.query.get(product_id)
     db.session.delete(product)
     db.session.commit()
@@ -44,6 +46,7 @@ def delete(product_id):
 
 @admin_bp.route('/store/edit/<int:product_id>', methods=['GET', 'POST'])
 def edit(product_id):
+    """Edit a product in the store"""
     product = ShopItems.query.get(product_id)
     if request.method == 'POST':
         product.title = request.form['title']

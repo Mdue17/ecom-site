@@ -6,6 +6,7 @@ public_bp = Blueprint('public', __name__)
 
 @public_bp.route("/")
 def home():
+    """Home page route"""
     categories = Category.query.all()
     category_items = {}
     for category in categories:
@@ -20,7 +21,8 @@ def home():
 
 @public_bp.route("/store", methods=['GET'])
 def store():
-    category_names = request.args.getlist('category')
+    """Store page route"""
+    category_names = request.args.getlist('category') # Get the category names from the query string
     if category_names:
         categories = Category.query.filter(Category.name.in_(category_names)).all()
         items = ShopItems.query.filter(ShopItems.category_id.in_([category.id for category in categories])).all()
