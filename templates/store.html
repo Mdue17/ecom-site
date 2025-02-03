@@ -47,55 +47,25 @@
             </div>
             <div class="col-md-8">
                 <div class="row">
+                    {% for product in products %}
                     <div class="col-md-6 mb-4">
                         <div class="card item">
                             <div class="card-img">
                                 <img
-                                    src="../static/images/4241beaa-1376-42ee-b0cf-1cedb8284409.jpg"
+                                    src="{{ url_for('static', filename='images/' ~ product.image_name) }}"
                                     class="card-img-top"
-                                    alt="..."
+                                    alt="{{ product.title }}"
                                 />
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">Germiston T-Shirt</h5>
-                                <p class="card-text">ZAR 149.90</p>
+                                <h5 class="card-title">{{ product.title }}</h5>
+                                <p class="card-text">{{ product.subtitle }}</p>
+                                <p class="card-text">ZAR {{ product.price }}</p>
                                 <a href="#" class="btn">Add to Cart</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="card item">
-                            <div class="card-img">
-                                <img
-                                    src="../static/images/4241beaa-1376-42ee-b0cf-1cedb8284409.jpg"
-                                    class="card-img-top"
-                                    alt="..."
-                                />
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Germiston T-Shirt</h5>
-                                <p class="card-text">ZAR 149.90</p>
-                                <a href="#" class="btn">Add to Cart</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 mb-4">
-                        <div class="card item">
-                            <div class="card-img">
-                                <img
-                                    src="../static/images/4241beaa-1376-42ee-b0cf-1cedb8284409.jpg"
-                                    class="card-img-top"
-                                    alt="..."
-                                />
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Germiston T-Shirt</h5>
-                                <p class="card-text">ZAR 149.90</p>
-                                <a href="#" class="btn">Add to Cart</a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
                 <a href="/" class="btn">Load More</a>
             </div>

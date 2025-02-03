@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+<title>{% block title %}Product{% endblock %}</title>
+
+{% block content %}
+<main>
+    <h1>{{ product.title }}</h1>
+    <div class="product-details">
+        <img src="{{ url_for('static', filename='images/' + product.image_name) }}" alt="image">
+        <h2>{{ product.subtitle }}</h2>
+        <p>Category: {{ product.category }}</p>
+        <p>Sizes: {{ product.sizes }}</p>
+        <p>Price: {{ product.price }}</p>
+        <a href="{{ url_for('cart') }}" class="btn">Add to Cart</a>
+    </div>
+</main>
+{% endblock %}
