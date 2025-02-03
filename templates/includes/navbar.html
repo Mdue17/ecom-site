@@ -22,20 +22,25 @@
                     <a class="nav-link" href="/"> Home </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('store') }}">
+                    <a class="nav-link" href="{{ url_for('public.store') }}">
                         Store
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('about') }}">
+                    <a class="nav-link" href="{{ url_for('public.about') }}">
                         About
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('contact') }}">
+                    <a class="nav-link" href="{{ url_for('public.contact') }}">
                         Contact
                     </a>
                 </li>
+            {% if session.get('user_role') == 'admin' %}
+                <li class="nav-item"><a href="{{ url_for('admin.add') }}">Add Product</a></li>
+                <li class="nav-item"><a href="{{ url_for('admin.edit') }}">Edit Product</a></li>
+                <li class="nav-item"><a href="{{ url_for('admin.delete') }}">Delete Product</a></li>
+            {% endif %}
             </ul>
         </div>
 
