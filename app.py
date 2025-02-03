@@ -29,8 +29,8 @@ class Category(db.Model):
 class ShopItems(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(20), nullable=False)
-    subtitle = db.Column(db.String(120), nullable=False)  # Removed unique=True
-    category = db.Column(db.String(100), nullable=False, default='other')
+    subtitle = db.Column(db.String(120), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     sizes = db.Column(db.String(10), nullable=False)
     price = db.Column(db.Float, nullable=False, default=0.0)
     image_name = db.Column(db.String(100), nullable=False, default='default.jpg')
