@@ -16,13 +16,15 @@ def add():
         price = request.form['price']
         image_file = request.files['image_name']
 
-        category = Category.query.filter_by(name=category_name).first()
+
+        category = Category.query.filter_by(name=category_name).first() # Get the category object
 
         if category is None:
             flash('Category does not exist.', 'error')
             return redirect(url_for('admin.add'))
 
         if image_file and image_file.filename:
+            # Save the image file
             filename = secure_filename(image_file.filename)
             image_path = os.path.join(admin_bp.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
