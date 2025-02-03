@@ -24,60 +24,29 @@
         </p>
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for category in categories %}
             <div class="col">
                 <a
-                    href="/"
+                    href="{{ url_for('store', category=category.name) }}"
                     class="card show-card"
                     style="
-                        background-image: url(../static/images/9604f919-e189-49bb-9a34-74bbcec23e34.jpg);
+                        background-image: url(../static/images/{{ category_items[category.id] }});
                     "
                 >
                     <div class="card-body">
-                        <h5 class="card-title">Combo</h5>
+                        <h5 class="card-title">{{ category.name }}</h5>
                         <p class="card-text">
-                            Perfectly Paired. Effortlessly Stylish.
+                            {{ category.description }}
                         </p>
                     </div>
                 </a>
             </div>
-            <div class="col">
-                <a
-                    href="/"
-                    class="card show-card"
-                    style="
-                        background-image: url(../static/images/9604f919-e189-49bb-9a34-74bbcec23e34.jpg);
-                    "
-                >
-                    <div class="card-body">
-                        <h5 class="card-title">Combo</h5>
-                        <p class="card-text">
-                            Perfectly Paired. Effortlessly Stylish.
-                        </p>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a
-                    href="/"
-                    class="card show-card"
-                    style="
-                        background-image: url(../static/images/9604f919-e189-49bb-9a34-74bbcec23e34.jpg);
-                    "
-                >
-                    <div class="card-body">
-                        <h5 class="card-title">Combo</h5>
-                        <p class="card-text">
-                            Perfectly Paired. Effortlessly Stylish.
-                        </p>
-                    </div>
-                </a>
-            </div>
+            {% endfor %}
         </div>
 
         <a href="/" class="btn mt-5">Shop Now</a>
     </div>
 </section>
-
 <section class="section-2">
     <div class="container">
         <h1 class="h1">Our Latest Arrival</h1>
