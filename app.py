@@ -1,8 +1,10 @@
 import os
 
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
+from routes.admin import admin_bp
+from routes.public import public_bp
+from models import db, Category, ShopItems
 
 app = Flask(__name__)
 
@@ -16,24 +18,12 @@ if not os.path.exists(UPLOAD_FOLDER):
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'placeholder'
-db = SQLAlchemy(app)
 
+db.init_app(app)
 
-# might move this to a separate file
-class Category(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(50), nullable=False, unique=True)
-    description = db.Column(db.String(200), nullable=True)
-    items = db.relationship('ShopItems', backref='category', lazy=True)
-
-class ShopItems(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(20), nullable=False)
-    subtitle = db.Column(db.String(120), nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
-    sizes = db.Column(db.String(10), nullable=False)
-    price = db.Column(db.Float, nullable=False, default=0.0)
-    image_name = db.Column(db.String(100), nullable=False, default='default.jpg')
+# Register Blueprints
+app.register_blueprint(public_bp)
+app.register_blueprint(admin_bp)
 
 
 with app.app_context():
@@ -49,106 +39,6 @@ with app.app_context():
 
 
 
-
-@app.route("/")
-def home():
-    categories = Category.query.all()
-    category_items = {}
-    for category in categories:
-        first_item = ShopItems.query.filter_by(category_id=category.id).first()
-        if first_item:
-            category_items[category.id] = first_item.image_name
-        else:
-            category_items[category.id] = 'default.jpg'
-    return render_template("index.html", categories=categories, category_items=category_items)
-
-
-
-
-
-
-@app.route("/store", methods=['GET'])
-def store():
-    category_names = request.args.getlist('category')
-    if category_names:
-        categories = Category.query.filter(Category.name.in_(category_names)).all()
-        items = ShopItems.query.filter(ShopItems.category_id.in_([category.id for category in categories])).all()
-    else:
-        items = ShopItems.query.all()
-    categories = Category.query.all()
-    return render_template("store.html", products=items, categories=categories)
-
-
-@app.route('/product/<int:product_id>')
-def product(product_id):
-    product = ShopItems.query.get(product_id)
-    return render_template('product.html', product=product)
-
-
-@app.route('/store/add', methods=['GET', 'POST'])
-def add():
-    if request.method == 'POST':
-        title = request.form['title']
-        subtitle = request.form['subtitle']
-        category_name = request.form['category']
-        sizes = request.form['sizes']
-        price = request.form['price']
-        image_file = request.files['image_name']
-
-        category = Category.query.filter_by(name=category_name).first()
-
-        if category is None:
-            flash('Category does not exist.', 'error')
-            return redirect(url_for('add'))
-
-        if image_file and image_file.filename:
-            filename = secure_filename(image_file.filename)
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)
-            item = ShopItems(title=title, subtitle=subtitle, category=category, sizes=sizes, price=price, image_name=filename)
-            db.session.add(item)
-            db.session.commit()
-            flash('Product added successfully!', 'success')
-            return redirect(url_for('store'))
-    else:
-        return render_template('add.html', categories=Category.query.all())
-
-@app.route('/store/delete/<int:product_id>')
-def delete(product_id):
-    product = ShopItems.query.get(product_id)
-    db.session.delete(product)
-    db.session.commit()
-    return redirect(url_for('store'))
-
-
-@app.route('/store/edit/<int:product_id>', methods=['GET', 'POST'])
-def edit(product_id):
-    product = ShopItems.query.get(product_id)
-    if request.method == 'POST':
-        product.title = request.form['title']
-        product.subtitle = request.form['subtitle']
-        product.category = request.form['category']
-        product.sizes = request.form['sizes']
-        product.image_name = request.form['image_name']
-        db.session.commit()
-        return redirect(url_for('store'))
-    else:
-        return render_template('edit.html', product=product)
-
-
-@app.route("/cart")
-def cart():
-    return render_template("cart.html")
-
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
-
-@app.route("/contact")
-def contact():
-    return render_template("contact.html")
 
 
 if __name__ == "__main__":
