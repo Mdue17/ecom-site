@@ -27,7 +27,7 @@
             {% for category in categories %}
             <div class="col">
                 <a
-                    href="{{ url_for('store', category=category.name) }}"
+                    href="{{ url_for('public.store', category=category.name) }}"
                     class="card show-card"
                     style="
                         background-image: url(../static/images/{{ category_items[category.id] }});
