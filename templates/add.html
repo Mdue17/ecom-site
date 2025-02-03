@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+<title>{% block title %}Add Product{% endblock %}</title>
+
+{% block content %}
+
+<main>
+    <h1>Add Product</h1>
+    <form action="{{ url_for('add') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="subtitle">Subtitle</label>
+            <input type="text" name="subtitle" id="subtitle" class="form-control" required>
+        </div>
+        <div class="form-group mb-4">
+            <label for="category">Category</label>
+            <select name="category" id="category" class="form-control" required>
+                <option value="Combo">Combo</option>
+                <option value="T-Shirt">T-Shirt</option>
+                <option value="Hoodie">Hoodie</option>
+                <option value="Cap">Cap</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="sizes">Sizes</label>
+            <input type="text" name="sizes" id="sizes" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="image_name">Image</label>
+            <input type="file" name="image_name" id="image_name" class="form-control" required>
+        </div>
+        <button type="submit" class="btn">Add Product</button>
+    </form>
+</main>
+
+{% endblock %}
