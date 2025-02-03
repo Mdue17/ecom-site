@@ -20,6 +20,12 @@ db = SQLAlchemy(app)
 
 
 # might move this to a separate file
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+    description = db.Column(db.String(200), nullable=True)
+    items = db.relationship('ShopItems', backref='category', lazy=True)
+
 class ShopItems(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(20), nullable=False)
