@@ -1,60 +1,78 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-    >
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<div class="top">
+    <div class="text-center">
+        <b>FREE DELIVERY</b> if you're located in Germiston! Limited to Gauteng.
+    </div>
+</div>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#"
-                    >Home <span class="sr-only">(current)</span></a
-                >
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                >
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+<header
+    class="navbar navbar-expand navbar-light flex-column flex-md-row bd-navbar"
+>
+    <div class="container">
+        <a class="navbar-brand mr-0 mr-md-2" href="/" aria-label="Bootstrap">
+            <img
+                src="{{ url_for('static', filename='images/logo.png') }}"
+                alt="logo"
+                width="35px"
+            />
+        </a>
+
+        <div class="navbar-nav-scroll">
+            <ul class="navbar-nav bd-navbar-nav flex-row">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"> Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('store') }}">
+                        Store
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('about') }}">
+                        About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('contact') }}">
+                        Contact
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            <form class="form-inline my-2 my-lg-0 search-form">
+                <input
+                    class="form-control mr-sm-2 border-0"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                />
+                <input
+                    class="btn btn-outline-success my-2 my-sm-0"
+                    type="submit"
+                    hidden
+                />
+                <div class="input-group-prepend">
+                    <div
+                        class="input-group-text bg-white border-0 text-secondary search-icon"
+                    >
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </div>
                 </div>
-            </li>
+            </form>
+
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
+                <a
+                    class="nav-link p-2"
+                    href="/cart"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="GitHub"
+                >
+                    <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                    <span class="text-success"><b>2</b></span>
+                </a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input
-                class="form-control mr-sm-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-            />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                Search
-            </button>
-        </form>
     </div>
-</nav>
+</header>

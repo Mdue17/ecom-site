@@ -1,7 +1,138 @@
-<!DOCTYPE html>
-{% include 'includes/header.html' %}
-<html lang="en">
-    <body>
-        {% include 'includes/navbar.html' %}
-    </body>
-</html>
+{% extends 'base.html' %}
+
+<title>{% block title %}Home{% endblock %}</title>
+
+{% block content %}
+<div class="intro">
+    <div class="intro-left"></div>
+    <div class="intro-center">
+        <div class="intro-details">
+            <h1><b>Shiy’Kulenga</b></h1>
+            <p><i>Wear Your Passion. Own the Moment.</i></p>
+            <a href="/" class="btn">Store</a>
+        </div>
+    </div>
+    <div class="intro-right"></div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <h1 class="h1">Categories</h1>
+        <p class="lead">
+            Discover the perfect merch to match your vibe—style, comfort, and
+            attitude all in one place.
+        </p>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+                <a href="/" class="card show-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Combo</h5>
+                        <p class="card-text">
+                            Perfectly Paired. Effortlessly Stylish.
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="/" class="card show-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Combo</h5>
+                        <p class="card-text">
+                            Perfectly Paired. Effortlessly Stylish.
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="/" class="card show-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Combo</h5>
+                        <p class="card-text">
+                            Perfectly Paired. Effortlessly Stylish.
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <a href="/" class="btn mt-5">Shop Now</a>
+    </div>
+</section>
+
+<section class="section-2">
+    <div class="container">
+        <h1 class="h1">Our Latest Arrival</h1>
+        <p class="lead">
+            Fresh drops, new styles—stay ahead of the trends with our latest
+            arrivals!
+        </p>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+                <a href="/" class="card show-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Combo</h5>
+                        <p class="card-text">
+                            Perfectly Paired. Effortlessly Stylish.
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="/" class="card show-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Combo</h5>
+                        <p class="card-text">
+                            Perfectly Paired. Effortlessly Stylish.
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="/" class="card show-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Combo</h5>
+                        <p class="card-text">
+                            Perfectly Paired. Effortlessly Stylish.
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <a href="/" class="btn mt-5">Shop Now</a>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h1 class="h1">Our Products</h1>
+        <p class="lead">
+            Fresh drops, new styles—stay ahead of the trends with our latest
+            arrivals!
+        </p>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col-md-4">
+                <div class="card item">
+                    <div class="card-img">
+                        <img
+                            src="../static/images/4241beaa-1376-42ee-b0cf-1cedb8284409.jpg"
+                            class="card-img-top"
+                            alt="..."
+                        />
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Germiston T-Shirt</h5>
+                        <p class="card-text">ZAR 149.90</p>
+                        <a href="#" class="btn">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="/" class="btn mt-5">Shop Now</a>
+    </div>
+</section>
+{% endblock %}
