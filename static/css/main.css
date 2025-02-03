@@ -218,3 +218,9 @@ footer {
     background: var(--black);
     border: none;
 }
+
+.jumbotron {
+    background: var(--white);
+    margin: 0;
+    border-bottom: 1px solid var(--black);
+}

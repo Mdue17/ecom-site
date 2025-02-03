@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+<title>{% block title %} Store {% endblock %}</title>
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="h1">Store</h1>
+        <p class="lead col-md-6 pd-0">
+            Explore our curated collection of stylish, high-quality pieces
+            designed to elevate your wardrobe. From everyday essentials to
+            exclusive drops, find the perfect items that match your unique
+            style.
+        </p>
+    </div>
+</div>
+
+<section>
+    <div class="container pt-5 pb-5">
+        <div class="row">
+            <div class="col-md-4">
+                <h1 class="h1">Filter</h1>
+                <hr />
+                <h5 class="h5 mb-4"><b>Categories</b></h5>
+                <form action="">
+                    <div class="form-check mb-2">
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="exampleCheck1"
+                        />
+                        <label class="form-check-label" for="exampleCheck1">
+                            Check me out
+                        </label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="exampleCheck1"
+                        />
+                        <label class="form-check-label" for="exampleCheck1">
+                            Check me out
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card item">
+                            <div class="card-img">
+                                <img
+                                    src="../static/images/4241beaa-1376-42ee-b0cf-1cedb8284409.jpg"
+                                    class="card-img-top"
+                                    alt="..."
+                                />
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Germiston T-Shirt</h5>
+                                <p class="card-text">ZAR 149.90</p>
+                                <a href="#" class="btn">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card item">
+                            <div class="card-img">
+                                <img
+                                    src="../static/images/4241beaa-1376-42ee-b0cf-1cedb8284409.jpg"
+                                    class="card-img-top"
+                                    alt="..."
+                                />
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Germiston T-Shirt</h5>
+                                <p class="card-text">ZAR 149.90</p>
+                                <a href="#" class="btn">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card item">
+                            <div class="card-img">
+                                <img
+                                    src="../static/images/4241beaa-1376-42ee-b0cf-1cedb8284409.jpg"
+                                    class="card-img-top"
+                                    alt="..."
+                                />
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Germiston T-Shirt</h5>
+                                <p class="card-text">ZAR 149.90</p>
+                                <a href="#" class="btn">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="/" class="btn">Load More</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
