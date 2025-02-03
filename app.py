@@ -26,6 +26,7 @@ class ShopItems(db.Model):
     subtitle = db.Column(db.String(120), nullable=False)  # Removed unique=True
     category = db.Column(db.String(100), nullable=False, default='other')
     sizes = db.Column(db.String(10), nullable=False)
+    price = db.Column(db.Float, nullable=False, default=0.0)
     image_name = db.Column(db.String(100), nullable=False, default='default.jpg')
 
 
@@ -57,13 +58,14 @@ def add():
         subtitle = request.form['subtitle']
         category = request.form['category']
         sizes = request.form['sizes']
+        price = request.form['price']
         image_file = request.files['image_name']
 
         if image_file and image_file.filename:
             filename = secure_filename(image_file.filename)
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
-            item = ShopItems(title=title, subtitle=subtitle, category=category, sizes=sizes, image_name=filename)
+            item = ShopItems(title=title, subtitle=subtitle, category=category, sizes=sizes, price= price,image_name=filename)
             db.session.add(item)
             db.session.commit()
             flash('Product added successfully!', 'success')
