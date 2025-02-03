@@ -36,13 +36,34 @@ class ShopItems(db.Model):
     image_name = db.Column(db.String(100), nullable=False, default='default.jpg')
 
 
-# with app.app_context():
-#     db.drop_all()
-#     db.create_all()
+with app.app_context():
+    # db.drop_all()
+    # db.create_all()  # Create all tables in the correct order
+
+    # Add initial data
+    if not Category.query.first():
+        db.session.add(Category(name='Combos', description='Perfectly Paired. Effortlessly Stylish.'))
+        db.session.add(Category(name='Merch', description='Streetwear That Speaks.'))
+        db.session.add(Category(name='Pants', description='Perfect Paired. Effortlessly Stylish.'))
+        db.session.commit()
+
+
+
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    categories = Category.query.all()
+    category_items = {}
+    for category in categories:
+        first_item = ShopItems.query.filter_by(category_id=category.id).first()
+        if first_item:
+            category_items[category.id] = first_item.image_name
+        else:
+            category_items[category.id] = 'default.jpg'
+    return render_template("index.html", categories=categories, category_items=category_items)
+
+
+
 
 
 
