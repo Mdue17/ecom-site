@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -8,6 +10,8 @@ class Category(db.Model):
     name = db.Column(db.String(50), nullable=False, unique=True)
     description = db.Column(db.String(200), nullable=True)
     items = db.relationship('ShopItems', backref='category', lazy=True)
+    last_updated = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
 
 class ShopItems(db.Model):
     """Model for the shop_items table"""
