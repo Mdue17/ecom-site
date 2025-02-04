@@ -1,34 +1,54 @@
 ```plaintext
 e-commerce-web-app/
 │
-├── app/
-│   ├── __init__.py
-│   ├── routes/
-│   │   ├── __init__.py
-│   │   ├── admin.py
-│   │   ├── public.py
-│   ├── templates/
-│   │   ├── base.html
-│   │   ├── home.html
-│   │   ├── store.html
-│   │   ├── item.html
-│   │   ├── cart.html
-│   │   ├── login.html
-│   ├── static/
-│   │   ├── css/
-│   │   │   └── styles.css
-│   │   ├── js/
-│   │   │   └── scripts.js
-│   │   ├── images/
-│   │   │   └── logo.png
-│   ├── forms.py
-│   └── utils.py
-│
-├── config.py
-├── requirements.txt
-├── models.py
 ├── app.py
-└── README.md
+├── instance
+│   └── shop.db
+├── LICENSE
+├── models.py
+├── __pycache__
+│   └── models.cpython-310.pyc
+├── README.md
+├── requirements.txt
+├── routes
+│   ├── admin.py
+│   ├── __init__.py
+│   ├── public.py
+│   └── __pycache__
+│       ├── admin.cpython-310.pyc
+│       ├── __init__.cpython-310.pyc
+│       └── public.cpython-310.pyc
+├── static
+│   ├── css
+│   │   ├── bootstrap.min.css
+│   │   ├── main.css
+│   │   └── style.css
+│   ├── images
+│   │   ├── homepage.png
+│   │   └── logo.png
+│   └── js
+│       ├── fixed.js
+│       └── script.js
+├── templates
+│   ├── 404.html
+│   ├── admin
+│   │   ├── add.html
+│   │   └── edit.html
+│   ├── base.html
+│   ├── includes
+│   │   ├── footer.html
+│   │   ├── header.html
+│   │   ├── navbar.html
+│   │   └── scripts.html
+│   ├── login.html
+│   ├── public
+│   │   ├── cart.html
+│   │   ├── checkout.html
+│   │   ├── index.html
+│   │   ├── product.html
+│   │   └── store.html
+│   └── register.html
+└── tests
 ```
 
 ## Project Structure Explanation
