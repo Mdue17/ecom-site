@@ -41,11 +41,11 @@
                     <div class="col-md-6 mb-4">
                         <div class="card item">
                             <div class="card-img">
-                                <img
-                                    src="{{ url_for('static', filename='images/' ~ product.image_name) }}"
-                                    class="card-img-top"
-                                    alt="{{ product.title }}"
-                                />
+                                <a href="{{ url_for('public.product', product_id=product.id ) }}">
+                                    <img src="{{ url_for('static', filename='images/' ~ product.image_name) }}"
+                                         class="card-img-top"
+                                         alt="{{ product.title }}">
+                                </a>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">{{ product.title }}</h5>

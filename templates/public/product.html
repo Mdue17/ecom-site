@@ -8,10 +8,10 @@
     <div class="product-details">
         <img src="{{ url_for('static', filename='images/' + product.image_name) }}" alt="image">
         <h2>{{ product.subtitle }}</h2>
-        <p>Category: {{ product.category }}</p>
+        <p>Category: {{ category.name }}</p>
         <p>Sizes: {{ product.sizes }}</p>
         <p>Price: {{ product.price }}</p>
-        <a href="{{ url_for('cart') }}" class="btn">Add to Cart</a>
+        <a href="{{ url_for('public.cart') }}" class="btn">Add to Cart</a>
     </div>
 </main>
 {% endblock %}

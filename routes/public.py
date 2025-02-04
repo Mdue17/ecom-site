@@ -35,7 +35,8 @@ def store():
 @public_bp.route('/product/<int:product_id>')
 def product(product_id):
     product = ShopItems.query.get(product_id)
-    return render_template('public/product.html', product=product)
+    category = Category.query.get(product.category_id)
+    return render_template('public/product.html', product=product, category=category)
 
 
 @public_bp.route("/cart")
