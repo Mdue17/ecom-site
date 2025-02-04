@@ -127,6 +127,7 @@
 .h1 {
     font-weight: bold;
     font-size: var(--text-lg);
+    text-transform: capitalize;
 }
 
 .lead {
@@ -285,4 +286,66 @@ footer {
     font-size: 16px;
     color: var(--black);
     transition: 0.3s ease;
+}
+
+.product-img {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow-y: hidden;
+}
+
+.product-img img {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.product-section {
+    padding: 60px 60px 120px;
+}
+
+.product-price {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 0 0;
+}
+
+.product-description {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0;
+}
+
+.product-form {
+    padding: 16px 0;
+}
+
+.product-form .sizes label {
+    font-size: 12px;
+    color: var(--black);
+    opacity: 0.75;
+}
+
+.size-btns {
+    display: grid;
+    grid-template-columns: 50px 50px 50px 50px;
+    gap: 12px;
+}
+
+.size-btn {
+    border: 1px solid var(--black);
+    padding: 12px 0;
+    text-align: center;
+
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.25);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.size-btn:hover,
+.size-btn:active {
+    color: var(--white);
+    background: var(--black);
 }
