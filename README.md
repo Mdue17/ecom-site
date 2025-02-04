@@ -3,8 +3,10 @@ e-commerce-web-app/
 │
 ├── app/
 │   ├── __init__.py
-│   ├── routes.py
-│   ├── models.py
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── public.py
 │   ├── templates/
 │   │   ├── base.html
 │   │   ├── home.html
@@ -24,7 +26,8 @@ e-commerce-web-app/
 │
 ├── config.py
 ├── requirements.txt
-├── run.py
+├── models.py
+├── app.py
 └── README.md
 ```
 
@@ -34,8 +37,11 @@ e-commerce-web-app/
 This is the main application directory.
 
 - **`__init__.py`**: Initializes the Flask application and ties together all the components.
-- **`routes.py`**: Contains all the routes for the web application (e.g., Home, Store, Item, Shopping Cart, Login).
-- **`models.py`**: Defines the database models (e.g., User, Product, Cart).
+- **`routes/`**: Contains all the route modules for the web application.
+  - **`__init__.py`**: Initializes the routes package.
+  - **`admin.py`**: Contains routes for admin functionalities.
+  - **`public.py`**: Contains routes for public-facing functionalities.
+- **`models.py`**: Defines the database models (e.g., `User`, `Product`, `Cart`).
 
 ### `templates/`
 Contains all the HTML templates for the pages:
@@ -60,7 +66,7 @@ Contains static files like CSS, JavaScript, and images:
 - **`utils.py`**: Contains utility functions (e.g., for handling file uploads, calculations).
 - **`config.py`**: Contains configuration settings for the Flask application (e.g., database URI, secret key).
 - **`requirements.txt`**: Lists all the Python dependencies required for the project.
-- **`run.py`**: The entry point for running the Flask application.
+- **`app.py`**: The entry point for running the Flask application.
 - **`README.md`**: Provides an overview of the project, setup instructions, and other relevant information.
 
 ## Navigation Planning

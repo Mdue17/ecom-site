@@ -27,8 +27,7 @@ app.register_blueprint(admin_bp)
 
 
 with app.app_context():
-    # db.drop_all()
-    # db.create_all()  # Create all tables in the correct order
+    db.create_all()  # Create all tables in the correct order
 
     # Add initial data
     if not Category.query.first():
