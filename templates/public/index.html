@@ -9,7 +9,7 @@
         <div class="intro-details">
             <h1><b>Shiy’Kulenga</b></h1>
             <p><i>Wear Your Passion. Own the Moment.</i></p>
-            <a href="/" class="btn">Store</a>
+            <a href="{{ url_for('public.store') }}" class="btn">Store</a>
         </div>
     </div>
     <div class="intro-right"></div>
@@ -24,27 +24,25 @@
         </p>
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <!-- limit upto 3 categories -->
             {% for category in categories %}
             <div class="col">
+                <!-- must update the category to get the last image in selected category -->
                 <a
                     href="{{ url_for('public.store', category=category.name) }}"
                     class="card show-card"
-                    style="
-                        background-image: url(../static/images/{{ category_items[category.id] }});
-                    "
+                    style="background-image: url(../static/images/{{ category_items[category.id] }});"
                 >
                     <div class="card-body">
                         <h5 class="card-title">{{ category.name }}</h5>
-                        <p class="card-text">
-                            {{ category.description }}
-                        </p>
+                        <p class="card-text">{{ category.description }}</p>
                     </div>
                 </a>
             </div>
             {% endfor %}
         </div>
 
-        <a href="/" class="btn mt-5">Shop Now</a>
+        <a href="{{ url_for('public.store') }}" class="btn mt-5">Shop Now</a>
     </div>
 </section>
 <section class="section-2">
@@ -106,7 +104,7 @@
             </div>
         </div>
 
-        <a href="/" class="btn mt-5">Shop Now</a>
+        <a href="{{ url_for('public.store') }}" class="btn mt-5">Shop Now</a>
     </div>
 </section>
 
@@ -171,7 +169,7 @@
             </div>
         </div>
 
-        <a href="/" class="btn mt-5">Shop Now</a>
+        <a href="{{ url_for('public.store') }}" class="btn mt-5">Shop Now</a>
     </div>
 </section>
 {% endblock %}
