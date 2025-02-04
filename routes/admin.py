@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from models import db, Category, ShopItems
 import os
 from werkzeug.utils import secure_filename
@@ -26,7 +26,7 @@ def add():
         if image_file and image_file.filename:
             # Save the image file
             filename = secure_filename(image_file.filename)
-            image_path = os.path.join(admin_bp.config['UPLOAD_FOLDER'], filename)
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
             item = ShopItems(title=title, subtitle=subtitle, category=category, sizes=sizes, price=price, image_name=filename)
             db.session.add(item)
