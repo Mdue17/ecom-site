@@ -1,3 +1,5 @@
+import random
+
 from flask import Blueprint, render_template, request
 from models import Category, ShopItems
 
@@ -8,15 +10,25 @@ public_bp = Blueprint('public', __name__)
 def home():
     """Home page route"""
     categories = Category.query.all()
-    category_items = {} # Dictionary to store the image name of the first item in each category
+    products = ShopItems.query.all()
+    random.shuffle(products)
+    category_items = {}  # Dictionary to store the image name of the first item in each category
+    recent_items = []
+    latest_updated_category = Category.query.order_by(Category.last_updated.desc()).all()  # Get the latest updated categories
+
+    for category in latest_updated_category:
+        first = ShopItems.query.filter_by(category_id=category.id).first()  # Get the first item in the category
+        if first:
+            recent_items.append(first)
+
+
     for category in categories:
-        first_item = ShopItems.query.filter_by(category_id=category.id).first() # Get the first item in the category
+        first_item = ShopItems.query.filter_by(category_id=category.id).first()  # Get the first item in the category
         if first_item:
-            category_items[category.id] = first_item.image_name # Get the image name of the first item
+            category_items[category.id] = first_item.image_name  # Get the image name of the first item
         else:
             category_items[category.id] = 'default.jpg'
-    return render_template("public/index.html", categories=categories, category_items=category_items)
-
+    return render_template("public/index.html", categories=categories, category_items=category_items, products=products, recent_items=recent_items)
 
 
 @public_bp.route("/store", methods=['GET'])
