@@ -1,8 +1,10 @@
 from functools import wraps
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, abort
-from flask_login import login_user, login_required, logout_user, current_user, LoginManager
-from models import db, Category, ShopItems
+from flask_login import  login_required, logout_user, current_user, LoginManager
+
+from forms import AddProductForm, AddCategoryForm
+from models import db, Category, ShopItems, User
 import os
 from werkzeug.utils import secure_filename
 
@@ -18,34 +20,31 @@ def admin_only(func):
         return func(*args, **kwargs) # Call the original function
     return wrapper
 
-@admin_only
-@login_required
+
 @admin_bp.route('/store/add', methods=['GET', 'POST'])
+@login_required
+@admin_only
 def add():
-    """Add a new product to the store"""
-    if request.method == 'POST':
-        title = request.form['title']
-        subtitle = request.form['subtitle']
-        category_name = request.form['category']
-        sizes = request.form['sizes']
-        price = request.form['price']
-        image_file = request.files['image_name']
+    form = AddProductForm()
+    if form.validate_on_submit():
 
+        category_name = form.category.data
+        category = Category.query.filter_by(name=category_name).first()
 
-        category = Category.query.filter_by(name=category_name).first() # Get the category object
+        if category:
+            product = ShopItems(
+                title=form.title.data,
+                subtitle=form.subtitle.data,
+                category=category,
+                sizes=form.sizes.data,
+                price=form.price.data,
+                image_name=data_saver(form.image_name.data)
+            )
+            db_processing(product)
+        flash('Product added successfully!', 'success')
+        return redirect(url_for('admin.add_product'))
 
-        if category is None:
-            flash('Category does not exist.', 'error')
-            return redirect(url_for('admin.add'))
-
-        if image_file and image_file.filename:
-            item = ShopItems(title=title, subtitle=subtitle, category=category, sizes=sizes, price=price, image_name=data_saver(image_file))
-            db_processing(item)
-            flash('Product added successfully!', 'success')
-            return redirect(url_for('public.store'))
-    else:
-        return render_template('admin/add.html', categories=Category.query.all())
-
+    return render_template('admin/add.html', form=form)
 
 def db_processing(item, save_bool=True):
     """Add or delete an item from the database"""
@@ -62,16 +61,26 @@ def data_saver(image_file):
     image_file.save(image_path)
     return filename
 
-
-
-def add_category(name, description):
-    """Add a new category to the database"""
-    category = Category(name=name, description=description)
-    db_processing(category)
-
-@admin_only
+@admin_bp.route('/store/add_category', methods=['POST', 'GET'])
 @login_required
+@admin_only
+def add_category():
+    """Add a new category to the database"""
+    form = AddCategoryForm()
+
+    if form.validate_on_submit():
+        if Category.query.filter_by(name=form.name.data).first():
+            flash('Category already exists!', 'danger')
+            return render_template('admin/add_category.html')
+        category = Category(name=form.name.data, description=form.description.data)
+        db_processing(category)
+        flash('Category added successfully!', 'success')
+    return render_template('admin/add_category.html', form=form)
+
+
 @admin_bp.route('/store/delete/<int:product_id>')
+@login_required
+@admin_only
 def delete(product_id):
     """Delete a product from the store"""
     product = ShopItems.query.get(product_id)
@@ -81,9 +90,10 @@ def delete(product_id):
 
 
 
-@admin_only
-@login_required
+
 @admin_bp.route('/store/edit/<int:product_id>', methods=['GET', 'POST'])
+@login_required
+@admin_only
 def edit(product_id):
     """Edit a product in the store"""
     product = ShopItems.query.get(product_id)
