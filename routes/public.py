@@ -55,8 +55,8 @@ def logout():
 # @login_required
 def home():
     """Home page route"""
-    categories = Category.query.all()
-    products = ShopItems.query.all()
+    categories = Category.query.limit(3).all()
+    products = ShopItems.query.limit(3).all()
     random.shuffle(products)
     category_items = {}  # Dictionary to store the image name of the first item in each category
     recent_items = []
