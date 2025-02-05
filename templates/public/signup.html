@@ -1,106 +1,35 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>Sign Up</h2>
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-        {{ form.username.label }}<br>
-        {{ form.username(class="form-control") }}
-    </div>
-    <div class="form-group">
-        {{ form.email.label }}<br>
-        {{ form.email(class="form-control") }}
-    </div>
-    <div class="form-group">
-        {{ form.password.label }}<br>
-        {{ form.password(class="form-control")}}
-    </div> 
-    <div class="form-group">
-        {{ form.confirm_password.label }}<br>
-        {{ form.confirm_password(class="form-control")}}
-    </div>
-    <div class="form-group">
-        {{ form.submit(class="btn btn-primary") }}
-    </div>
-</form>
-
-<p>Already have an account? <a href="{{ url_for('public.login') }}">Login</a></p>
-{% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-<!-- !-- <!DOCTYPE html> -->
-<!-- <html lang="en"> -->
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Sign up</title>
-
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-            rel="stylesheet"
-        />
-
-        <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
-
-        <link rel="stylesheet" href="../static/css/main.css" />
-    </head>
-    <body>
-        <div class="login">
-            <div class="container">
-                <div class="form">
-                    <h1 class="h1 mb-3">Sign Up</h1>
-                    <form>
-                        <div class="form-group">
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Username"
-                            />
-                        </div>
-                        <div class="form-group">
-                            <input
-                                type="email"
-                                class="form-control"
-                                placeholder="Enter email"
-                            />
-                        </div>
-                        <div class="form-group">
-                            <input
-                                type="password"
-                                class="form-control"
-                                placeholder="Password"
-                            />
-                        </div>
-                        <div class="form-group">
-                            <input
-                                type="password"
-                                class="form-control"
-                                placeholder="Confirm password"
-                            />
-                        </div>
-                        <div class="form-check mt-4 ml-4">
-                            <input type="checkbox" class="form-check-input" />
-                            <label class="form-check-label" for="exampleCheck1">
-                                Remember me
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-full mt-4">
-                            Login
-                        </button>
-                    </form>
+{% extends "base.html" %} {% block content %}
+<div class="login">
+    <div class="container">
+        <div class="form">
+            <h1 class="h1">Sign Up</h1>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.username.label }}<br />
+                    {{ form.username(class="form-control") }}
                 </div>
-            </div>
+                <div class="form-group">
+                    {{ form.email.label }}<br />
+                    {{ form.email(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label }}<br />
+                    {{ form.password(class="form-control")}}
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_password.label }}<br />
+                    {{ form.confirm_password(class="form-control")}}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-full") }}
+                </div>
+            </form>
+            <p class="mt-4">
+                Already have an account?
+                <a href="{{ url_for('public.login') }}"><b>Login</b></a>
+            </p>
         </div>
-    </body>
-<!-- </html> --> 
+    </div>
+</div>
+{% endblock %}

@@ -2,7 +2,7 @@
 
 <title>{% block title %} Store {% endblock %}</title>
 
-{% block content %}
+{% block content %} {% include 'includes/navbar.html' %}
 <div class="jumbotron">
     <div class="container">
         <h1 class="h1">Store</h1>
@@ -49,10 +49,14 @@
                     <div class="col-md-6 mb-4">
                         <div class="card item">
                             <div class="card-img">
-                                <a href="{{ url_for('public.product', product_id=product.id ) }}">
-                                    <img src="{{ url_for('static', filename='images/' ~ product.image_name) }}"
-                                         class="card-img-top"
-                                         alt="{{ product.title }}">
+                                <a
+                                    href="{{ url_for('public.product', product_id=product.id ) }}"
+                                >
+                                    <img
+                                        src="{{ url_for('static', filename='images/' ~ product.image_name) }}"
+                                        class="card-img-top"
+                                        alt="{{ product.title }}"
+                                    />
                                 </a>
                             </div>
                             <div class="card-body">
@@ -74,4 +78,4 @@
         </div>
     </div>
 </section>
-{% endblock %}
+{% endblock %} {% include 'includes/footer.html' %}
