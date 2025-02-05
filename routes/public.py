@@ -2,8 +2,6 @@ import random
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_user, login_required, logout_user, current_user, LoginManager
-from flask import session
-from flask_sqlalchemy import SQLAlchemy
 from forms import LoginForm, SignupForm
 from models import Category, ShopItems, db, User
 from flask_bcrypt import Bcrypt
