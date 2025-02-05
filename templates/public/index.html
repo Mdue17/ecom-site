@@ -74,10 +74,8 @@
                 </div>
             </div>
             {% endfor %}
-            <a href="{{ url_for('public.store') }}" class="btn mt-5">
-                Shop Now
-            </a>
         </div>
+        <a href="{{ url_for('public.store') }}" class="btn mt-5"> Shop Now </a>
     </div>
 </section>
 
@@ -89,34 +87,31 @@
             arrivals!
         </p>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <div class="row g-3">
-                {% for product in products %}
-                <div class="col-md-4">
-                    <div class="card item">
-                        <div class="card-img">
-                            <a
-                                href="{{ url_for('public.product', product_id=product.id ) }}"
-                            >
-                                <img
-                                    src="{{ url_for('static', filename='images/' ~ product.image_name) }}"
-                                    class="card-img-top"
-                                    alt="{{ product.title }}"
-                                />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.title }}</h5>
-                            <p class="card-text">{{ product.price }}</p>
-                            <a href="#" class="btn">Add to Cart</a>
-                        </div>
+            {% for product in products %}
+            <div class="col-md-4">
+                <div class="card item">
+                    <div class="card-img">
+                        <a
+                            href="{{ url_for('public.product', product_id=product.id ) }}"
+                        >
+                            <img
+                                src="{{ url_for('static', filename='images/' ~ product.image_name) }}"
+                                class="card-img-top"
+                                alt="{{ product.title }}"
+                            />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <p class="card-text">{{ product.price }}</p>
+                        <a href="#" class="btn">Add to Cart</a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-
-            <a href="{{ url_for('public.store') }}" class="btn mt-5"
-                >Shop Now</a
-            >
+            <a href="{{ url_for('public.store') }}" class="btn mt-5">
+                Shop Now
+            </a>
         </div>
     </div>
 </section>
