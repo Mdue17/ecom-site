@@ -2,8 +2,7 @@
 
 <title>{% block title %}Home{% endblock %}</title>
 
-{% block content %}
-{% include 'includes/navbar.html' %}
+{% block content %} {% include 'includes/navbar.html' %}
 
 <div class="intro">
     <div class="intro-left"></div>
@@ -75,9 +74,9 @@
                 </div>
             </div>
             {% endfor %}
-            <a href="{{ url_for('public.store') }}" class="btn mt-5"
-                >Shop Now</a
-            >
+            <a href="{{ url_for('public.store') }}" class="btn mt-5">
+                Shop Now
+            </a>
         </div>
     </div>
 </section>
@@ -121,5 +120,5 @@
         </div>
     </div>
 </section>
- {% include 'includes/footer.html' %}
-{% endblock %}
+{% include 'includes/scripts.html' %} {% include 'includes/footer.html' %} {%
+endblock %}

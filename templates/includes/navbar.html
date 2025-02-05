@@ -4,80 +4,100 @@
     </div>
 </div>
 
-<header
-    class="navbar navbar-expand navbar-light flex-column flex-md-row bd-navbar"
->
+<nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
-        <a class="navbar-brand mr-0 mr-md-2" href="/" aria-label="Bootstrap">
+        <a href="/" class="navbar-brand">
             <img
                 src="{{ url_for('static', filename='images/logo.png') }}"
                 alt="logo"
                 width="35px"
             />
         </a>
-
-        <div class="navbar-nav-scroll">
-            <ul class="navbar-nav bd-navbar-nav flex-row">
+        <div class="d-flex ml-auto">
+            <button class="navbar-toggler" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="globalNavbar">
+            <form
+                class="form-inline form-navbar my-2 my-lg-0 order-2"
+                action=""
+            >
+                <input
+                    class="form-control"
+                    name="search"
+                    type="text"
+                    placeholder="Search"
+                />
+            </form>
+            <ul class="navbar-nav mr-auto order-1">
                 <li class="nav-item">
-                    <a class="nav-link" href="/"> Home </a>
+                    <a class="nav-link" id="home" href="/"> Home </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('public.store') }}">
+                    <a
+                        class="nav-link"
+                        id="home"
+                        href="{{ url_for('public.store') }}"
+                    >
                         Store
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('public.about') }}">
+                    <a
+                        class="nav-link"
+                        id="home"
+                        href="{{ url_for('public.about') }}"
+                    >
                         About
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('public.contact') }}">
+                    <a
+                        class="nav-link"
+                        id="home"
+                        href="{{ url_for('public.contact') }}"
+                    >
                         Contact
                     </a>
                 </li>
-            {% if session.get('user_role') == 'admin' %}
-                <li class="nav-item"><a href="{{ url_for('admin.add') }}">Add Product</a></li>
-                <li class="nav-item"><a href="{{ url_for('admin.edit') }}">Edit Product</a></li>
-                <li class="nav-item"><a href="{{ url_for('admin.delete') }}">Delete Product</a></li>
-            {% endif %}
+
+                {% if session.get('user_role') == 'admin' %}
+                <li class="nav-item">
+                    <a href="{{ url_for('admin.add') }}">Add Product</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('admin.edit') }}">Edit Product</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('admin.delete') }}">Delete Product</a>
+                </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav d-none d-lg-flex ml-2 order-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('public.signup') }}">
+                        <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                        2
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('public.login') }}">
+                        Login
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('public.signup') }}">
+                        Sign up
+                    </a>
+                </li>
             </ul>
         </div>
-
-        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-            <form class="form-inline my-2 my-lg-0 search-form">
-                <input
-                    class="form-control mr-sm-2 border-0"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                />
-                <input
-                    class="btn btn-outline-success my-2 my-sm-0"
-                    type="submit"
-                    hidden
-                />
-                <div class="input-group-prepend">
-                    <div
-                        class="input-group-text bg-white border-0 text-secondary search-icon"
-                    >
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </div>
-                </div>
-            </form>
-
-            <li class="nav-item">
-                <a
-                    class="nav-link p-2"
-                    href="/cart"
-                    target="_blank"
-                    rel="noopener"
-                    aria-label="GitHub"
-                >
-                    <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-                    <span class="text-success"><b>2</b></span>
-                </a>
-            </li>
-        </ul>
     </div>
-</header>
+</nav>
