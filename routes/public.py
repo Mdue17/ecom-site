@@ -2,7 +2,7 @@ import random
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_user, login_required, logout_user, current_user, LoginManager
-from forms import LoginForm, SignupForm
+from forms import LoginForm, SignupForm, ContactForm
 from models import Category, ShopItems, db, User
 from flask_bcrypt import Bcrypt
 
@@ -22,7 +22,7 @@ def login():
             next_page = request.args.get('next') #if theres a nxt page
             return redirect(next_page) if next_page else redirect(url_for('public.home'))
         else:
-            flash ('Invalid email or password, try again',"error")
+            flash ('Invalid email or password, try again',"danger")
     return render_template('public/login.html', form=form)
 
 
@@ -38,7 +38,7 @@ def signup():
         )
         db.session.add(user)
         db.session.commit()
-        flash('Registratired successfully!', 'success')
+        flash('Registered successfully!', 'success')
         return redirect(url_for('public.login'))
     return render_template('public/signup.html', form=form)
 
@@ -107,6 +107,11 @@ def about():
     return render_template("public/about.html")
 
 
-@public_bp.route("/contact")
+@public_bp.route("/contact", methods=['GET', 'POST'])
 def contact():
-    return render_template("public/contact.html")
+    form = ContactForm()
+    if form.validate_on_submit():
+        #store msg in db or send email
+        flash('Your message has been sent successfully', 'success')
+        return redirect(url_for('public.contact'))
+    return render_template("public/contact.html", form=form)
