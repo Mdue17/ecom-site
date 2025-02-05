@@ -1,5 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block content %}
+<h2>Sign Up</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.Username.label }}<br>
+        {{ form.Username(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.email.label }}<br>
+        {{ form.email(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.password.label }}<br>
+        {{ form.password(class="form-control")}}
+    </div> 
+    <div class="form-group">
+        {{ form.confirm_password.label }}<br>
+        {{ form.confirm_password(class="form-control")}}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+
+<p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+<!-- !-- <!DOCTYPE html> -->
+<!-- <html lang="en"> -->
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -64,4 +103,4 @@
             </div>
         </div>
     </body>
-</html>
+<!-- </html> --> 

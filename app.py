@@ -1,10 +1,12 @@
 import os
 
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_sqlalchemy import SQLAlchemy
+from forms import LoginForm, SignupForm
 from werkzeug.utils import secure_filename
 from routes.admin import admin_bp
 from routes.public import public_bp
-from models import db, Category, ShopItems
+from models import db, Category, ShopItems, User
 
 app = Flask(__name__)
 
