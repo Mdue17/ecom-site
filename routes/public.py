@@ -17,10 +17,11 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user)
             flash('Login successful!', 'success')
-            return redirect(url_for('public.home'))
+            next_page = request.args.get('next') #if theres a nxt page
+            return redirect(next_page) if next_page else redirect(url_for('public.home'))
         else:
-            flash ('Invalid email or password, try again', "error")
-    return render_template('login.html', form=form)
+            flash ('Invalid email or password, try again',"error")
+    return render_template('public/login.html', form=form)
 
 
 @public_bp.route('/signup', methods=['GET', 'POST'])
@@ -30,13 +31,13 @@ def signup():
         user = User(
             username=form.username.data,
             email=form.email.data,
-            password=form.password.data
         )
+        user.set_password=(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('Registratired successfully!', 'success')
         return redirect(url_for('public.login'))
-    return render_template('signup.html', form=form)
+    return render_template('public/signup.html', form=form)
 
 @public_bp.route("/logout")
 def logout():
@@ -46,6 +47,7 @@ def logout():
 
 
 @public_bp.route("/")
+# @login_required
 def home():
     """Home page route"""
     categories = Category.query.all()
