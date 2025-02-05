@@ -64,6 +64,11 @@ def data_saver(image_file):
 
 
 
+def add_category(name, description):
+    """Add a new category to the database"""
+    category = Category(name=name, description=description)
+    db_processing(category)
+
 @admin_only
 @login_required
 @admin_bp.route('/store/delete/<int:product_id>')
