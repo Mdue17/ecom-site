@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from functools import wraps
+
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, abort
+from flask_login import login_user, login_required, logout_user, current_user, LoginManager
 from models import db, Category, ShopItems
 import os
 from werkzeug.utils import secure_filename
@@ -36,28 +39,45 @@ def add():
             return redirect(url_for('admin.add'))
 
         if image_file and image_file.filename:
-            # Save the image file
-            filename = secure_filename(image_file.filename)
-            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)
-            item = ShopItems(title=title, subtitle=subtitle, category=category, sizes=sizes, price=price, image_name=filename)
-            db.session.add(item)
-            db.session.commit()
+            item = ShopItems(title=title, subtitle=subtitle, category=category, sizes=sizes, price=price, image_name=data_saver(image_file))
+            db_processing(item)
             flash('Product added successfully!', 'success')
             return redirect(url_for('public.store'))
     else:
         return render_template('admin/add.html', categories=Category.query.all())
 
 
+def db_processing(item, save_bool=True):
+    """Add or delete an item from the database"""
+    if save_bool:
+        db.session.add(item)
+    else:
+        db.session.delete(item)
+    db.session.commit()
+
+def data_saver(image_file):
+    """Save the image file to the server"""
+    filename = secure_filename(image_file.filename)
+    image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+    image_file.save(image_path)
+    return filename
+
+
+
+@admin_only
+@login_required
 @admin_bp.route('/store/delete/<int:product_id>')
 def delete(product_id):
     """Delete a product from the store"""
     product = ShopItems.query.get(product_id)
-    db.session.delete(product)
-    db.session.commit()
+    db_processing(product, False)
     return redirect(url_for('public.store'))
 
 
+
+
+@admin_only
+@login_required
 @admin_bp.route('/store/edit/<int:product_id>', methods=['GET', 'POST'])
 def edit(product_id):
     """Edit a product in the store"""
@@ -65,11 +85,17 @@ def edit(product_id):
     if request.method == 'POST':
         product.title = request.form['title']
         product.subtitle = request.form['subtitle']
-        product.category = request.form['category']
+        product.category = Category.query.filter_by(name=request.form['category']).first()
         product.sizes = request.form['sizes']
-        product.image_name = request.form['image_name']
-        db.session.commit()
+        product.price = request.form['price']
+        image_file = request.files['image_name']
+
+        if image_file and image_file.filename:
+            product.image_name = data_saver(image_file)
+
+        db_processing(product)
+        flash('Product updated successfully!', 'success')
         return redirect(url_for('public.store'))
     else:
-        return render_template('admin/edit.html', product=product)
+        return render_template('admin/edit.html', product=product, categories=Category.query.all())
 
