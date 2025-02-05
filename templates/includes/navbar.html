@@ -45,22 +45,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a
-                        class="nav-link"
-                        id="home"
-                        href="{{ url_for('public.about') }}"
-                    >
-                        About
-                    </a>
+                    <a class="nav-link" id="" href="/#about"> About </a>
                 </li>
                 <li class="nav-item">
-                    <a
-                        class="nav-link"
-                        id="home"
-                        href="{{ url_for('public.contact') }}"
-                    >
-                        Contact
-                    </a>
+                    <a class="nav-link" id="" href="/#contact"> Contact </a>
                 </li>
 
                 {% if session.get('user_role') == 'admin' %}
