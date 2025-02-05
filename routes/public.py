@@ -1,9 +1,48 @@
 import random
 
-from flask import Blueprint, render_template, request
-from models import Category, ShopItems
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import login_user, login_required, logout_user, current_user, LoginManager
+from flask import session
+from flask_sqlalchemy import SQLAlchemy
+from forms import LoginForm, SignupForm
+from models import Category, ShopItems, db, User
 
 public_bp = Blueprint('public', __name__)
+
+@public_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user)
+            flash('Login successful!', 'success')
+            return redirect(url_for('public.home'))
+        else:
+            flash ('Invalid email or password, try again', "error")
+    return render_template('login.html', form=form)
+
+
+@public_bp.route('/signup', methods=['GET', 'POST'])
+def signup():
+    form = SignupForm()
+    if form.validate_on_submit():
+        user = User(
+            username=form.username.data,
+            email=form.email.data,
+            password=form.password.data
+        )
+        db.session.add(user)
+        db.session.commit()
+        flash('Registratired successfully!', 'success')
+        return redirect(url_for('public.login'))
+    return render_template('signup.html', form=form)
+
+@public_bp.route("/logout")
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('public.login'))
 
 
 @public_bp.route("/")
@@ -32,6 +71,7 @@ def home():
 
 
 @public_bp.route("/store", methods=['GET'])
+@login_required
 def store():
     """Store page route"""
     category_names = request.args.getlist('category') # Get the category names from the query string
@@ -52,6 +92,7 @@ def product(product_id):
 
 
 @public_bp.route("/cart")
+@login_required
 def cart():
     return render_template("public/cart.html")
 
