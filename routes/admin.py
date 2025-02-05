@@ -5,6 +5,18 @@ from werkzeug.utils import secure_filename
 
 admin_bp = Blueprint('admin', __name__)
 
+
+def admin_only(func):
+    """Restrict access to admin users only"""
+    @wraps(func) # Preserve the original function's parameter metadata
+    def wrapper(*args, **kwargs):
+        if current_user.id != 1: # Admin user id placeholder
+            return abort(403)
+        return func(*args, **kwargs) # Call the original function
+    return wrapper
+
+@admin_only
+@login_required
 @admin_bp.route('/store/add', methods=['GET', 'POST'])
 def add():
     """Add a new product to the store"""
