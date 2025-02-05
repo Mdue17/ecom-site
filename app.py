@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager
+from flask_wtf import CSRFProtect
 from werkzeug.utils import secure_filename
 from routes.admin import admin_bp
 from routes.public import public_bp
@@ -17,10 +18,13 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Turn off update messages from the sqlalchemy
+# app.config['SESSION_COOKIE_SECURE'] = True   # Prevents sending cookies over HTTP (to be uncommented when deploying)
+app.config['SESSION_COOKIE_HTTPONLY'] = True # Prevents JavaScript access
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' # Limits cross-site cookie usage
+
 app.secret_key = 'placeholder'
-
-
+csrf = CSRFProtect(app)
 db.init_app(app)
 
 #init flask-login
@@ -47,8 +51,6 @@ with app.app_context():
         db.session.add(Category(name='Merch', description='Streetwear That Speaks.'))
         db.session.add(Category(name='Pants', description='Perfect Paired. Effortlessly Stylish.'))
         db.session.commit()
-
-
 
 
 
