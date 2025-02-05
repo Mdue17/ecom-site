@@ -6,15 +6,19 @@ from flask import session
 from flask_sqlalchemy import SQLAlchemy
 from forms import LoginForm, SignupForm
 from models import Category, ShopItems, db, User
+from flask_bcrypt import Bcrypt
 
 public_bp = Blueprint('public', __name__)
+
+
 
 @public_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    bcrypt = Bcrypt()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.check_password(form.password.data):
+        if user and bcrypt.check_password_hash(user.password_hash, form.password.data):
             login_user(user)
             flash('Login successful!', 'success')
             next_page = request.args.get('next') #if theres a nxt page
@@ -27,12 +31,13 @@ def login():
 @public_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignupForm()
+    bcrypt = Bcrypt()
     if form.validate_on_submit():
         user = User(
             username=form.username.data,
             email=form.email.data,
+            password_hash=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         )
-        user.set_password=(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('Registratired successfully!', 'success')
@@ -73,7 +78,7 @@ def home():
 
 
 @public_bp.route("/store", methods=['GET'])
-@login_required
+# @login_required
 def store():
     """Store page route"""
     category_names = request.args.getlist('category') # Get the category names from the query string
