@@ -1,10 +1,11 @@
 from functools import wraps
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, abort
+from flask_bcrypt import Bcrypt
 from flask_login import  login_required, logout_user, current_user, LoginManager
 
-from forms import AddProductForm, AddCategoryForm
-from models import db, Category, ShopItems, User
+from forms import AddProductForm, AddCategoryForm, SignupForm, AddRoleForm
+from models import db, Category, ShopItems, User, Activity, Role
 import os
 from werkzeug.utils import secure_filename
 
@@ -16,11 +17,90 @@ def admin_only(func):
     @wraps(func) # Preserve the original function's parameter metadata
     def wrapper(*args, **kwargs):
 
-        if current_user.role != 'admin':
-            return abort(403)
+        if current_user.role_id != 1 and current_user.id != 1:
+            flash('Access denied! Admins only.', 'danger')
+            return redirect(url_for('public.login'))
         return func(*args, **kwargs) # Call the original function
     return wrapper
 
+
+
+@admin_bp.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+@admin_only
+def dashboard():
+
+    total_users = User.query.count()
+    active_users = User.query.filter_by(is_active=True).count()
+    pending_requests = 0  # Adjust based on actual business logic
+    recent_activities = Activity.query.order_by(Activity.date.desc()).limit(10).all()
+    roles = Role.query.all()
+    return render_template(
+        'admin/dashboard.html',
+        total_users=total_users,
+        active_users=active_users,
+        pending_requests=pending_requests,
+        recent_activities=recent_activities,
+        users= User.query.all(),
+        form = SignupForm(),
+        role_form = AddRoleForm(),
+        roles = reversed(roles)
+    )
+
+@admin_bp.route('/update_role', methods=['POST'])
+@login_required
+def update_role():
+
+    user_id = request.form.get('user_id')
+    new_role = request.form.get('role')
+
+    user = User.query.get(user_id)
+    if user:
+        user.role = new_role
+        db.session.commit()
+        flash(f'Role updated to {new_role} for {user.username}', 'success')
+    else:
+        flash('User not found', 'danger')
+
+    return redirect(url_for('admin.dashboard'))
+
+@admin_bp.route('/add_user', methods=['POST', 'GET'])
+@login_required
+@admin_only
+def add_user():
+    bcrypt = Bcrypt()
+    form = SignupForm()
+    email = form.email.data
+
+    if form.validate_on_submit():
+        user = User(
+            username=form.username.data,
+            email=email,
+            password_hash=bcrypt.generate_password_hash(form.password.data).decode(
+                "utf-8"
+            ),
+        )
+        if User.query.filter_by(email=email).first():
+            flash('Email already registered!', 'danger')
+            return redirect(url_for('admin.dashboard', form=form))
+        db_processing(user)
+        log_activity(user, 'User added')
+    flash('New user added successfully!', 'success')
+
+    return redirect(url_for('admin.dashboard'))
+
+
+@admin_bp.route('/add_role', methods=['GET', 'POST'])
+@login_required
+@admin_only
+def add_role():
+    form = AddRoleForm()
+    if form.validate_on_submit():
+        role = Role(name=form.name.data, description=form.description.data)
+        db_processing(role)
+        flash('Role added successfully!', 'success')
+        log_activity(current_user, f"Role {role.name} added")
+    return render_template('admin/add_role.html', role_form=form)
 
 @admin_bp.route('/store/add', methods=['GET', 'POST'])
 @login_required
@@ -79,13 +159,40 @@ def add_category():
     return render_template('admin/add_category.html', form=form)
 
 
-@admin_bp.route('/store/delete')
+
+@admin_bp.route('/store/delete', methods=['GET', 'POST'])
 @login_required
 @admin_only
-def delete(product_id):
+def delete():
+    search_query = request.args.get('search_query')
+    columns = User.__table__.columns.keys()
+    product = None
+
+    if search_query:
+        product = ShopItems.query.filter_by(title=search_query).first()
+        if product:
+            db_processing(product, False)
+            flash('Product removed successfully!', 'success')
+            log_activity(current_user, f"Product {product.title} removed")
+
+        else:
+            flash("Product not found", "danger")
+
+    return render_template('admin/delete.html', product=product, categories=Category.query.all(), columns=columns, products=ShopItems.query.all())
+
+
+
+
+
+@admin_bp.route('/store/delete/<int:product_id>', methods=['POST', 'GET'])
+@login_required
+@admin_only
+def delete1(product_id):
     """Delete a product from the store"""
     product = ShopItems.query.get(product_id)
     db_processing(product, False)
+    flash('Product deleted successfully!', 'success')
+    log_activity(current_user, f"Product {product.title} deleted")
     return redirect(url_for('public.store'))
 
 
@@ -129,6 +236,13 @@ def update(product_id):
         product.image_name = data_saver(form.image_name.data)
     db.session.commit()
     flash("Product updated successfully!", "success")
+    log_activity(current_user, f"Product {product.title} updated")
     return redirect(url_for('admin.edit'))
+
+
+def log_activity(user, action):
+    activity = Activity(user_id=user.id, action=action)
+    db.session.add(activity)
+    db.session.commit()
 
 

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Admin Dashboard</h2>
+    
+    <!-- Statistics Cards -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <p class="card-text display-4">{{ total_users }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Active Users</h5>
+                    <p class="card-text display-4">{{ active_users }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Requests</h5>
+                    <p class="card-text display-4">{{ pending_requests }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- User Role Management -->
+    <div class="card mt-4">
+        <div class="card-header">Manage Users</div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('admin.update_role') }}">
+                                    {{ form.hidden_tag() }}
+                                <input type="hidden" name="user_id" value="{{ user.id }}">
+
+                                <select name="role" class="form-control d-inline w-auto">
+                                    {% for role in roles %}
+                                    <option value="roles[1].name" >{{ role.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <td><button type="submit" class="btn btn-primary btn-sm">Update</button></td>
+                            </form>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add New User -->
+    <div class="card mt-4">
+
+
+        <div class="card-header">Add New User</div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('admin.add_user') }}">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.username.label }}<br />
+                    {{ form.username(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label }}<br />
+                    {{ form.email(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label }}<br />
+                    {{ form.password(class="form-control")}}
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_password.label }}<br />
+                    {{ form.confirm_password(class="form-control")}}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-full") }}
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Add New Role -->
+    <div class="card mt-4">
+        <div class="card-header">Add New Role</div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('admin.add_role') }}">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ role_form.name.label }}<br />
+                    {{ role_form.name(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ role_form.description.label }}<br />
+                    {{ role_form.description(class="form-control") }}
+                </div>
+                <button type="submit" class="btn btn-info">Add Role</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
