@@ -137,9 +137,8 @@ def product(product_id):
 
 
 @public_bp.route("/cart")
-# @login_required
 def cart():
-    return render_template("public/cart.html")
+    return render_template("public/cart.html", user=current_user)
 
 
 @public_bp.route("/about")
