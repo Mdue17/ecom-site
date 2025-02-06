@@ -1,10 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Edit Product{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form">
+    <h1>Edit Product</h1>
+
+
+
+        <form method="GET" action="{{ url_for('admin.edit') }}">
+            <div class="input-group mb-3">
+                <input
+                    type="text"
+                    name="search_query"
+                    class="form-control"
+                    placeholder="Search for a product..."
+                    required
+                />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% if product %}
+
+    <form action="{{ url_for('admin.update', product_id=product.id) }}" method="POST" enctype="multipart/form-data">
+
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title(class="form-control", value=product.title) }}
+        </div>
+        <div class="form-group">
+            {{ form.subtitle.label }}
+            {{ form.subtitle(class="form-control", value=product.subtitle) }}
+        </div>
+        <div class="form-group mb-4">
+            <label for="category">Category</label>
+            <select name="category" id="category" class="form-control" required>
+                {% for category in categories %}
+                    <option value="{{ category.name }}">
+                        {{ category.name }}
+                    {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            {{ form.sizes.label }}
+            {{ form.sizes(class="form-control", value=product.sizes) }}
+        </div>
+        <div class="form-group">
+            {{ form.price.label }}
+            {{ form.price(class="form-control", value=product.price) }}
+        </div>
+        <div class="form-group">
+            <label for="image_name">Image</label>
+            <input type="file" name="image_name" id="image_name" class="form-control" >
+        </div>
+        {{ form.submit(class="btn") }}
+    </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

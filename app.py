@@ -1,12 +1,11 @@
 import os
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
-from werkzeug.utils import secure_filename
 from routes.admin import admin_bp
 from routes.public import public_bp
-from models import db, Category, ShopItems, User
+from models import db, Category, User
 
 app = Flask(__name__)
 
