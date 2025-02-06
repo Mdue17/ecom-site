@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Product{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form">
+    <h1>Delete Product</h1>
+
+         <table class="table table-striped">
+                <thead>
+                    <tr>
+                        {% for column in columns %}
+                            <th>{{ column }}</th>
+                        {% endfor %}
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.id }}</td>
+                            <td>{{ product.title }}</td>
+                            <td>{{ product.subtitle }}</td>
+                            <td>{% for category in categories %}
+                                {% if category.id == product.category_id %}
+                                    {{ category.name }}
+                                {% endif %}
+                            {% endfor %}</td>
+                            <td>{{ product.sizes }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.image_name }}</td>
+                            <td>
+                                <a href="{{ url_for('admin.delete', product_id=product.id) }}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+
+        <form method="GET" action="{{ url_for('admin.delete') }}">
+            <div class="input-group mb-3">
+                <input
+                    type="text"
+                    name="search_query"
+                    class="form-control"
+                    placeholder="Search for a product..."
+                    required
+                />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+    </div>
+
+</div>
+{% endblock %}
