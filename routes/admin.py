@@ -90,6 +90,17 @@ def add_user():
     return redirect(url_for('admin.dashboard'))
 
 
+@admin_bp.route('/delete_user/<int:user_id>', methods=['POST'])
+@login_required
+@admin_only
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    db_processing(user, False)
+    flash('User deleted successfully!', 'success')
+    log_activity(current_user, f"User {user.username} deleted")
+    return redirect(url_for('admin.dashboard'))
+
+
 @admin_bp.route('/add_role', methods=['GET', 'POST'])
 @login_required
 @admin_only
