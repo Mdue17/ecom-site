@@ -1,6 +1,6 @@
 import random
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from flask_login import (
     login_user,
     login_required,
@@ -22,6 +22,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password_hash, form.password.data):
+            logout_user()
             login_user(user)
             flash("Login successful!", "success")
             next_page = request.args.get("next")  # if theres a nxt page
@@ -38,6 +39,7 @@ def signup():
     form = SignupForm()
     bcrypt = Bcrypt()
     if form.validate_on_submit():
+        logout_user()
         user = User(
             username=form.username.data,
             email=form.email.data,
@@ -54,6 +56,7 @@ def signup():
 
 @public_bp.route("/logout")
 def logout():
+    session.clear()
     logout_user()
     flash("You have been logged out.", "info")
     return redirect(url_for("public.login"))
@@ -97,6 +100,7 @@ def home():
         category_items=category_items,
         products=products,
         recent_items=recent_items,
+        user = current_user
     )
 
 
