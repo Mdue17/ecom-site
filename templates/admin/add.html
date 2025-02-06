@@ -6,6 +6,17 @@
 <div class="container">
     <div class="form">
     <h1>Add Product</h1>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
     <form action="{{ url_for('admin.add') }}" method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <div class="form-group">
@@ -38,18 +49,6 @@
         </div>
         {{ form.submit(class="btn") }}
     </form>
-<!--    {% with messages = get_flashed_messages(with_categories=True) %}-->
-<!--        {% if messages %}-->
-<!--            <div class="flash-messages">-->
-<!--                {% for category, message in messages %}-->
-<!--                    <div class="alert alert-{{ category }}">-->
-<!--                        {{ message }}-->
-<!--                    </div>-->
-<!--                {% endfor %}-->
-<!--            </div>-->
-<!--        {% endif %}-->
-<!--    {% endwith %}-->
-
     </div>
 </div>
 {% endblock %}
