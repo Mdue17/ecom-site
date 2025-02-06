@@ -107,12 +107,13 @@
                         <a href="#" class="btn">Add to Cart</a>
                     </div>
                 </div>
-                {% endfor %}
+
             </div>
-            <a href="{{ url_for('public.store') }}" class="btn mt-2">
+            {% endfor %}
+        </div>
+        <a href="{{ url_for('public.store') }}" class="btn mt-2">
                 Shop Now
             </a>
-        </div>
     </div>
 </section>
 
