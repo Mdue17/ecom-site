@@ -41,10 +41,10 @@ def add():
                 image_name=data_saver(form.image_name.data)
             )
             db_processing(product)
-        flash('Product added successfully!', 'success')
-        return redirect(url_for('admin.add_product'))
+            flash('Product added successfully!', 'success')
+            return redirect(url_for('admin.add', form=form, categories=category))
 
-    return render_template('admin/add.html', form=form)
+    return render_template('admin/add.html', form=form, categories=Category.query.all())
 
 def db_processing(item, save_bool=True):
     """Add or delete an item from the database"""
