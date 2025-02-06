@@ -34,3 +34,9 @@ class ContactForm(FlaskForm):
     message = TextAreaField('Message', validators=[DataRequired(), Length(min=10, max=500)])
     submit = SubmitField('Send Message')
 
+
+
+class AddRoleForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    submit = SubmitField('Add Role')

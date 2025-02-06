@@ -5,7 +5,7 @@ from flask_login import LoginManager
 from flask_wtf import CSRFProtect
 from routes.admin import admin_bp
 from routes.public import public_bp
-from models import db, Category, User
+from models import db, Category, User, Role
 
 app = Flask(__name__)
 
@@ -49,6 +49,11 @@ with app.app_context():
         db.session.add(Category(name='Combos', description='Perfectly Paired. Effortlessly Stylish.'))
         db.session.add(Category(name='Merch', description='Streetwear That Speaks.'))
         db.session.add(Category(name='Pants', description='Perfect Paired. Effortlessly Stylish.'))
+        db.session.commit()
+
+    if not Role.query.first():
+        db.session.add(Role(name='Admin', description='Admin role'))
+        db.session.add(Role(name='User', description='User role'))
         db.session.commit()
 
 

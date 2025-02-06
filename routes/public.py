@@ -9,7 +9,7 @@ from flask_login import (
     LoginManager,
 )
 from forms import LoginForm, SignupForm, ContactForm
-from models import Category, ShopItems, db, User
+from models import Category, ShopItems, db, User, Role
 from flask_bcrypt import Bcrypt
 
 public_bp = Blueprint("public", __name__)
@@ -40,18 +40,23 @@ def signup():
     bcrypt = Bcrypt()
     if form.validate_on_submit():
         logout_user()
+        if len(User.query.all()) < 1:
+            role = Role.query.get(1)
+        else:
+            role = Role.query.get(2)
         user = User(
             username=form.username.data,
             email=form.email.data,
             password_hash=bcrypt.generate_password_hash(form.password.data).decode(
                 "utf-8"
             ),
+            role_id= role.id
         )
         db.session.add(user)
         db.session.commit()
         flash("Registered successfully!", "success")
         return redirect(url_for("public.login"))
-    return render_template("public/signup.html", form=form)
+    return render_template("public/signup.html", form=form, users=len(User.query.all()), roles = Role.query.all())
 
 
 @public_bp.route("/logout")
@@ -121,7 +126,7 @@ def store():
     else:
         items = ShopItems.query.all()
     categories = Category.query.all()
-    return render_template("public/store.html", products=items, categories=categories)
+    return render_template("public/store.html", products=items, categories=categories, user = current_user)
 
 
 @public_bp.route("/product/<int:product_id>")

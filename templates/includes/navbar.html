@@ -51,7 +51,7 @@
                     <a class="nav-link" id="" href="/#contact"> Contact </a>
                 </li>
 
-                {% if user.role == 'admin' %}
+                {% if user.role_id == 1 %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('admin.add') }}">Add Product</a>
                     </li>
@@ -60,7 +60,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('admin.delete') }}">Delete Product</a>
-                </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
                 {% endif %}
             </ul>
             <ul class="navbar-nav d-none d-lg-flex ml-2 order-3">

@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(30), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    role = db.Column(db.String(10), nullable=False, default='user')
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id', ondelete="CASCADE"), nullable=False)  # ✅ Add ondelete="CASCADE"
     is_active = db.Column(db.Boolean, nullable=False, default=True)
 
     def set_password(self, password):
@@ -20,7 +20,25 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-        
+
+
+
+class Role(db.Model):
+    """Model for user roles"""
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(20), unique=True, nullable=False)
+    description = db.Column(db.String(100), nullable=True)
+    users = db.relationship('User', backref='role', lazy=True, cascade="all, delete")  # ✅ Cascade in ORM
+
+
+class Activity(db.Model):
+    """Model to store user activities"""
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    action = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User', backref=db.backref('activities', lazy=True))
 
 
 class Category(db.Model):
