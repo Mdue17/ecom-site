@@ -82,50 +82,19 @@
 }
 
 .intro {
+    background-image: url(../images/ef538cf7-df38-43e3-ba46-90e61462b48d.jpg);
+    background-size: cover;
+    background-position: center;
     position: relative;
     height: 75vh;
-    margin: 0;
+}
+
+.intro-details {
     color: var(--white);
-
-    display: grid;
-    grid-template-columns: 1fr 1140px 1fr;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-}
-
-.intro .intro-left {
-    background-image: url(../images/add1d087-caf9-441c-8d35-ff34cd39c199.jpg);
-}
-
-.intro .intro-center {
-    background-image: url(../images/ef538cf7-df38-43e3-ba46-90e61462b48d.jpg);
-    background-position: center;
-
-    border-left: 1px solid rgba(0, 0, 0, 0.25);
-    border-right: 1px solid rgba(0, 0, 0, 0.25);
-}
-
-.intro .intro-right {
-    background-image: url(../images/f315176e-ef53-43b4-bf73-2fab7688f51f.jpg);
-}
-
-.intro .intro-left,
-.intro .intro-center,
-.intro .intro-right {
-    position: relative;
-    height: inherit;
-    margin: 0;
-
-    background-color: var(--black);
-    background-blend-mode: luminosity;
-    background-size: cover;
-}
-
-.intro .intro-details {
-    position: absolute;
-    bottom: 32px;
-    left: 32px;
-
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+
+    position: absolute;
+    bottom: 35px;
 }
 
 .section,
