@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms.fields.simple import HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 class LoginForm(FlaskForm):
@@ -34,7 +35,9 @@ class ContactForm(FlaskForm):
     message = TextAreaField('Message', validators=[DataRequired(), Length(min=10, max=500)])
     submit = SubmitField('Send Message')
 
-
+class DeleteProductForm(FlaskForm):
+    product_id = HiddenField('Product ID')
+    submit = SubmitField('Delete')
 
 class AddRoleForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])

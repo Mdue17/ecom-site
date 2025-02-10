@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_bcrypt import Bcrypt
 from flask_login import  login_required, logout_user, current_user, LoginManager
 
-from forms import AddProductForm, AddCategoryForm, SignupForm, AddRoleForm
+from forms import AddProductForm, AddCategoryForm, SignupForm, AddRoleForm, DeleteProductForm
 from models import db, Category, ShopItems, User, Activity, Role
 import os
 from werkzeug.utils import secure_filename

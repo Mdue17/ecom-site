@@ -31,15 +31,21 @@
                             <td>{{ product.price }}</td>
                             <td>{{ product.image_name }}</td>
                             <td>
-                                <a href="{{ url_for('admin.delete', product_id=product.id) }}" class="btn btn-danger">Delete</a>
+                                <form method="POST" action="{{ url_for('admin.delete1', product_id=product.id) }}" style="display:inline;">
+                                    {{ form.hidden_tag() }}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+
                             </td>
                         </tr>
                     {% endfor %}
+                </tbody>
 
 
 
         <form method="GET" action="{{ url_for('admin.delete') }}">
             <div class="input-group mb-3">
+                {{ form.hidden_tag() }}
                 <input
                     type="text"
                     name="search_query"
