@@ -181,6 +181,7 @@ def delete():
     search_query = request.args.get('search_query')
     columns = User.__table__.columns.keys()
     product = None
+    delete_form = DeleteProductForm()
 
     if search_query:
         product = ShopItems.query.filter_by(title=search_query).first()
@@ -192,7 +193,7 @@ def delete():
         else:
             flash("Product not found", "danger")
 
-    return render_template('admin/delete.html', product=product, categories=Category.query.all(), columns=columns, products=ShopItems.query.all(), user=current_user)
+    return render_template('admin/delete.html', product=product, categories=Category.query.all(), columns=columns, products=ShopItems.query.all(), user=current_user, form=delete_form)
 
 
 
