@@ -25,11 +25,11 @@
     padding: 6px 0;
 }
 
-.navbar {
+/* .navbar {
     background: var(--white);
     height: 60px;
     border-bottom: 1px solid var(--black);
-}
+} */
 
 .search-form {
     position: relative;
@@ -357,4 +357,11 @@ footer {
     font-size: var(--text-lg);
     font-weight: bold;
     color: var(--green);
+}
+
+@media (max-width: 768px) {
+    .section,
+    .section-2 {
+        padding: 40px 0;
+    }
 }
