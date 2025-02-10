@@ -44,23 +44,26 @@ def dashboard():
         users= User.query.all(),
         form = SignupForm(),
         role_form = AddRoleForm(),
-        roles = reversed(roles)
+        roles = reversed(roles),
+        user = current_user
     )
 
 @admin_bp.route('/update_role', methods=['POST'])
 @login_required
+@admin_only
 def update_role():
-
     user_id = request.form.get('user_id')
-    new_role = request.form.get('role')
+    new_role_id = request.form.get('role')
 
     user = User.query.get(user_id)
-    if user:
-        user.role = new_role
+    new_role = Role.query.get(new_role_id)
+
+    if user and new_role:
+        user.role_id = new_role.id  # Correctly update the role_id
         db.session.commit()
-        flash(f'Role updated to {new_role} for {user.username}', 'success')
+        flash(f'Role updated to {new_role.name} for {user.username}', 'success')
     else:
-        flash('User not found', 'danger')
+        flash('User or Role not found', 'danger')
 
     return redirect(url_for('admin.dashboard'))
 
@@ -136,7 +139,7 @@ def add():
             flash('Product added successfully!', 'success')
             return redirect(url_for('admin.add', form=form, categories=category))
 
-    return render_template('admin/add.html', form=form, categories=Category.query.all())
+    return render_template('admin/add.html', form=form, categories=Category.query.all(), user=current_user)
 
 def db_processing(item, save_bool=True):
     """Add or delete an item from the database"""
@@ -189,7 +192,7 @@ def delete():
         else:
             flash("Product not found", "danger")
 
-    return render_template('admin/delete.html', product=product, categories=Category.query.all(), columns=columns, products=ShopItems.query.all())
+    return render_template('admin/delete.html', product=product, categories=Category.query.all(), columns=columns, products=ShopItems.query.all(), user=current_user)
 
 
 
@@ -229,7 +232,7 @@ def edit():
         else:
             flash("Product not found", "danger")
 
-    return render_template('admin/edit.html', form=form, product=product, categories=Category.query.all())
+    return render_template('admin/edit.html', form=form, product=product, categories=Category.query.all(), user=current_user, roles=Role.query.all())
 
 @admin_bp.route('/admin/update/<int:product_id>', methods=['POST', 'GET'])
 def update(product_id):

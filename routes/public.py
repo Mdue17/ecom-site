@@ -133,7 +133,7 @@ def store():
 def product(product_id):
     product = ShopItems.query.get(product_id)
     category = Category.query.get(product.category_id)
-    return render_template("public/product.html", product=product, category=category)
+    return render_template("public/product.html", product=product, category=category, user=current_user)
 
 
 @public_bp.route("/cart")

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block content %}{% include 'includes/navbar.html' %}
 <div class="container mt-4">
     <h2 class="mb-4">Admin Dashboard</h2>
     
@@ -57,19 +57,21 @@
 
                                 <select name="role" class="form-control d-inline w-auto">
                                     {% for role in roles %}
-                                    <option value="roles[1].name" >{{ role.name }}</option>
+                                        <option value="{{ role.id }}" {% if user.role_id == role.id %}selected{% endif %}>
+                                            {{ role.name }}
+                                        </option>
                                     {% endfor %}
                                 </select>
+
                                 <td><button type="submit" class="btn btn-primary btn-sm">Update</button></td>
                             </form>
-
+<td>
                             <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}" >
                                 {{ form.hidden_tag() }}
                                 <input type="hidden" name="user_id" value="{{ user.id }}">
-                                <td><button type="submit" class="btn btn-danger btn-sm">Delete</button></td>
-                            </form>
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form></td>
 
-                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
