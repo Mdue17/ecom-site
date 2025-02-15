@@ -138,8 +138,52 @@ def product(product_id):
 
 @public_bp.route("/cart")
 def cart():
-    return render_template("public/cart.html", user=current_user)
+     
+    cart_items = session.get("cart", {}) #retrieve cart from session
+    total_cost = sum(item["price"] * item["quantity"] for item in cart_items.values())
+    
+    return render_template("public/cart.html", cart_items=cart_items,total_cost=total_cost,user=current_user)
 
+
+@public_bp.route("/add_to_cart/<int:item_id>", methods=["POST"])
+def add_to_cart(item_id):
+    """add item to cart"""
+    item = ShopItems.query.get_or_404(item_id)
+
+    if "cart" not in session:
+        session["cart"] = {}
+
+    cart = session["cart"]
+
+    if str(item_id) in cart:
+        cart[str(item_id)]["quantity"] +=1
+    else:
+        cart[str(item_id)] = {"title":item.title, "price": item.price , "quantity":1}
+
+    #update session
+    session.modified = True
+    flash(f"{item.title} added to cart!", "success")
+    return redirect(url_for("public.cart"))
+
+@public_bp.route("/remove_from_cart/<int:item_id>", methods=["POST"])
+def remove_from_cart(item_id):
+
+    """remove from cart"""
+    cart = session.get("cart", {})
+
+    if str(item_id) in cart:
+        del cart[str(item_id)]
+        session.modified = True
+        flash("removed from cart!", "info")
+    
+    return redirect(url_for("public.cart"))
+
+@public_bp.route("/clear_cart")
+def clear_cart():
+    """clear entire cart"""
+    session.pop("cart", None)
+    flash("Cart cleared!", "info")
+    return redirect(url_for("public.cart"))
 
 @public_bp.route("/about")
 def about():
