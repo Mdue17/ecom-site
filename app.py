@@ -9,32 +9,36 @@ from models import db, Category, User, Role
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'static/images/'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+UPLOAD_FOLDER = "static/images/"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Turn off update messages from the sqlalchemy
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///shop.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = (
+    False  # Turn off update messages from the sqlalchemy
+)
 # app.config['SESSION_COOKIE_SECURE'] = True   # Prevents sending cookies over HTTP (to be uncommented when deploying)
-app.config['SESSION_COOKIE_HTTPONLY'] = True # Prevents JavaScript access
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' # Limits cross-site cookie usage
+app.config["SESSION_COOKIE_HTTPONLY"] = True  # Prevents JavaScript access
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"  # Limits cross-site cookie usage
 
-app.secret_key = 'placeholder'
+app.secret_key = "placeholder"
 csrf = CSRFProtect(app)
 db.init_app(app)
 
-#init flask-login
-login_manager  = LoginManager()
+# init flask-login
+login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "public.login"
 
-#load user for session manager
+
+# load user for session manager
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 # Register Blueprints
 app.register_blueprint(public_bp)
@@ -46,17 +50,23 @@ with app.app_context():
 
     # Add initial data
     if not Category.query.first():
-        db.session.add(Category(name='Combos', description='Perfectly Paired. Effortlessly Stylish.'))
-        db.session.add(Category(name='Merch', description='Streetwear That Speaks.'))
-        db.session.add(Category(name='Pants', description='Perfect Paired. Effortlessly Stylish.'))
+        db.session.add(
+            Category(
+                name="Combos", description="Perfectly Paired. Effortlessly Stylish."
+            )
+        )
+        db.session.add(Category(name="Merch", description="Streetwear That Speaks."))
+        db.session.add(
+            Category(name="Pants", description="Perfect Paired. Effortlessly Stylish.")
+        )
         db.session.commit()
 
     if not Role.query.first():
-        db.session.add(Role(name='Admin', description='Admin role'))
-        db.session.add(Role(name='User', description='User role'))
+        db.session.add(Role(name="Admin", description="Admin role"))
+        db.session.add(Role(name="User", description="User role"))
         db.session.commit()
 
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port, debug=True)
